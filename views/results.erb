@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rummy Final Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- 🌙 Dark Mode Toggle -->
+    <button class="toggle-theme" onclick="toggleTheme()">🌙 Toggle Theme</button>
+
+    <h1>Final Results</h1>
+
+    <h2>Total Scores</h2>
+    <ul>
+      <% totals.each do |player, total| %>
+        <li><strong><%= player %></strong>: <%= total %></li>
+      <% end %>
+    </ul>
+
+    <h2>Who Owes Whom</h2>
+    <% if payments.any? %>
+      <ul>
+        <% payments.each do |from, to_hash| %>
+          <% to_hash.each do |to, amount| %>
+            <li><%= from %> owes <%= to %>: ₹<%= amount %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No payments to display.</p>
+    <% end %>
+
+    <form action="/restart" method="post">
+      <button type="submit">Start New Game</button>
+    </form>
+  </div>
+
+  <!-- 🌙 Theme Toggle Script -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</body>
+</html>

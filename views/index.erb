@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rummy Round Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- 🌙 Dark Mode Toggle Button -->
+    <button class="toggle-theme" onclick="toggleTheme()">🌙 Toggle Theme</button>
+
+    <h1>Rummy Score Tracker</h1>
+
+    <% if session[:scores].size < session[:players].size %>
+      <h2>Round <%= session[:scores].size + 1 %></h2>
+      <h3>Dealer: <%= session[:players][session[:scores].size] %></h3>
+
+      <form action="/round" method="post">
+        <% session[:players].each do |player| %>
+          <label><%= player %>'s Score:</label>
+          <input type="number" name="scores[<%= player %>]" required>
+        <% end %>
+        <button type="submit">Submit Round</button>
+      </form>
+    <% else %>
+      <h2>All rounds complete!</h2>
+      <a href="/results">View Final Results</a>
+    <% end %>
+
+    <form action="/reset" method="post" style="display:inline;">
+      <button type="submit">Reset Scores</button>
+    </form>
+
+    <form action="/restart" method="post" style="display:inline;">
+      <button type="submit">Restart Game</button>
+    </form>
+  </div>
+
+  <!-- 🌙 Dark Mode Toggle Script -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</body>
+</html>

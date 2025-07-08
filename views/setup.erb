@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rummy Setup</title>
+  <link rel="stylesheet" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container">
+    <button class="toggle-theme" onclick="toggleTheme()">🌙 Toggle Theme</button>
+    <h1>Setup Rummy Game</h1>
+
+    <% if !session[:player_count] %>
+      <form action="/player_count" method="post">
+        <label>How many players?</label>
+        <input type="number" name="player_count" min="2" max="30" required>
+        <button type="submit">Next</button>
+      </form>
+    <% else %>
+      <form action="/setup" method="post">
+        <p>Enter Player Names:</p>
+        <% session[:player_count].to_i.times do |i| %>
+          <input type="text" name="players[]" placeholder="Player <%= i+1 %>" required>
+        <% end %>
+        <button type="submit">Start Game</button>
+      </form>
+    <% end %>
+  </div>
+
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</body>
+</html>
