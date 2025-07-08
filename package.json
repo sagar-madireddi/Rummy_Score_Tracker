@@ -1,0 +1,6 @@
+{
+  "name": "rummy-score-tracker",
+  "scripts": {
+    "start": "ruby app.rb"
+  }
+}
