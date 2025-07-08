@@ -4,6 +4,7 @@ require 'sinatra/reloader' if development?
 enable :sessions
 set :bind, '0.0.0.0'
 set :port, ENV['PORT'] || 4567
+set :port, 3000
 set :public_folder, File.join(__dir__, 'public')
 # Route to accept number of players
 post '/player_count' do
